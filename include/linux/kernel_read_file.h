@@ -35,15 +35,31 @@ static inline const char *kernel_read_file_id_str(enum kernel_read_file_id id)
 	return kernel_read_file_str[id];
 }
 
+int kernel_pread_file(struct file *file,
+		      void **buf, loff_t *size, loff_t pos,
+		      loff_t max_size,
+		      enum kernel_read_file_id id);
 int kernel_read_file(struct file *file,
 		     void **buf, loff_t *size, loff_t max_size,
 		     enum kernel_read_file_id id);
+int kernel_pread_file_from_path(const char *path,
+				void **buf, loff_t *size, loff_t pos,
+				loff_t max_size,
+				enum kernel_read_file_id id);
 int kernel_read_file_from_path(const char *path,
 			       void **buf, loff_t *size, loff_t max_size,
 			       enum kernel_read_file_id id);
+int kernel_pread_file_from_path_initns(const char *path,
+				       void **buf, loff_t *size, loff_t pos,
+				       loff_t max_size,
+				       enum kernel_read_file_id id);
 int kernel_read_file_from_path_initns(const char *path,
 				      void **buf, loff_t *size, loff_t max_size,
 				      enum kernel_read_file_id id);
+int kernel_pread_file_from_fd(int fd,
+			      void **buf, loff_t *size, loff_t pos,
+			      loff_t max_size,
+			      enum kernel_read_file_id id);
 int kernel_read_file_from_fd(int fd,
 			     void **buf, loff_t *size, loff_t max_size,
 			     enum kernel_read_file_id id);
