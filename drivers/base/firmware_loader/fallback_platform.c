@@ -17,13 +17,18 @@ int firmware_fallback_platform(struct fw_priv *fw_priv, u32 opt_flags)
 	if (!(opt_flags & FW_OPT_FALLBACK_PLATFORM))
 		return -ENOENT;
 
-	rc = security_kernel_load_data(LOADING_FIRMWARE_EFI_EMBEDDED);
+	rc = security_kernel_load_data(LOADING_FIRMWARE);
 	if (rc)
 		return rc;
 
 	rc = efi_get_embedded_fw(fw_priv->fw_name, &data, &size);
 	if (rc)
 		return rc; /* rc == -ENOENT when the fw was not found */
+
+	rc = security_kernel_post_read_file(NULL, (char *)data, size,
+					    READING_FIRMWARE);
+	if (rc)
+		return rc;
 
 	if (fw_priv->data && size > fw_priv->allocated_size)
 		return -ENOMEM;

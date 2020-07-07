@@ -640,15 +640,19 @@
  *	@kmod_name name of the module requested by the kernel
  *	Return 0 if successful.
  * @kernel_load_data:
- *	Load data provided by userspace.
+ *	Load data provided by a non-file source (usually userspace buffer).
  *	@id kernel load data identifier
  *	Return 0 if permission is granted.
+ *	This may be paired with a kernel_post_read_file() with a NULL
+ *	@file, but contains the actual data loaded.
  * @kernel_read_file:
  *	Read a file specified by userspace.
  *	@file contains the file structure pointing to the file being read
  *	by the kernel.
  *	@id kernel read file identifier
  *	Return 0 if permission is granted.
+ *	This must be paired with a kernel_post_read_file(), which contains
+ *	the actual data read from @file.
  * @kernel_post_read_file:
  *	Read a file specified by userspace.
  *	@file contains the file structure pointing to the file being read
