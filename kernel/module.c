@@ -2984,7 +2984,12 @@ static int copy_module_from_user(const void __user *umod, unsigned long len,
 		return -EFAULT;
 	}
 
-	return 0;
+	err = security_kernel_post_read_file(NULL, (char *)info->hdr,
+					     info->len, READING_MODULE);
+	if (err)
+		vfree(info->hdr);
+
+	return err;
 }
 
 static void free_copy(struct load_info *info)
